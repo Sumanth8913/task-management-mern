@@ -1,233 +1,372 @@
-# Task Management MERN Application
+# Task Management MERN
 
-A production-style task management web application built on the MERN stack (MongoDB, Express, React, Node.js). Users register, log in, and manage their own tasks — with search, filters, sorting, pagination, file attachments, live weather for task locations, and email notifications on task creation and completion.
+A full-stack Task Management application built using the MERN stack — MongoDB, Express.js, React.js, and Node.js.
 
-## Overview
+The application allows users to create an account, securely log in, and manage their tasks through a simple and responsive interface.
 
-This app is for anyone who wants a straightforward, secure, multi-user task tracker: individuals organizing personal to-dos, or a small team where each person needs their own private task list. Every task belongs to exactly one user, and the backend enforces that ownership on every read, write, and delete — a user can never see or touch another user's tasks, even by guessing an ID.
+## Demo :
 
-## Features
+The application includes:
 
-- **Authentication** — register, login, logout, session check (`/me`), JWT-based, bcrypt password hashing
-- **Authorization** — every task operation is scoped to `req.user._id`; ownership is checked server-side, never trusted from the client
-- **Task CRUD** — create, read, update, delete, with status (`PENDING` / `IN_PROGRESS` / `DONE`) and priority (`LOW` / `MEDIUM` / `HIGH`)
-- **Search** — full-text search across title, description, and location
-- **Filtering** — by status, priority, and due-date range
-- **Sorting** — newest, oldest, due soonest, due latest, priority
-- **Pagination** — server-side, with a capped page size
-- **File attachments** — upload via Multer + Cloudinary (JPG, PNG, PDF, DOC, DOCX; 10MB limit)
-- **Live weather** — OpenWeatherMap lookup for a task's location, cached server-side for 10 minutes
-- **Email notifications** — sent on task creation and on the `PENDING/IN_PROGRESS → DONE` transition only (no duplicate completion emails); email failures never block the task operation itself
-- **Dashboard** — real counts (total, pending, in progress, completed, high priority) and upcoming deadlines, computed from actual data
-- **Responsive, accessible UI** — Tailwind CSS, semantic HTML, keyboard-navigable dialogs, labeled forms
+* 🔐 User Registration & Login
+* 🔑 Secure JWT Authentication
+* 📝 Create, Update & Delete Tasks
+* ✅ Mark Tasks as Completed
+* 📋 View and Manage Tasks
+* 🗄️ MongoDB Database Integration
+* ⚙️ Backend REST APIs
+* 🌐 React Frontend
+* 📱 Responsive User Interface
+* 🛡️ Password Hashing & Protected Routes
 
 ## Tech Stack
 
-**Frontend:** React 18, Vite, React Router, Axios, TanStack Query, Tailwind CSS, Lucide icons
-**Backend:** Node.js, Express, Mongoose, MongoDB, JWT, bcryptjs, Multer, Cloudinary, Nodemailer
-**External APIs:** OpenWeatherMap (weather), SMTP provider of your choice (email)
+### Frontend
 
-## Architecture
+* React.js
+* Vite
+* JavaScript
+* HTML
+* CSS
+* Tailwind CSS
 
-```
-React (Vite)
-   │  Axios + TanStack Query
-   ▼
-Express REST API  ──►  MongoDB (Mongoose)
-   │
-   ├──► Cloudinary (attachment storage)
-   ├──► OpenWeatherMap (task-location weather)
-   └──► SMTP (task-created / task-completed emails)
-```
+### Backend
 
-The frontend never talks to Cloudinary, OpenWeatherMap, or the SMTP provider directly — all third-party calls happen server-side so API keys and secrets never reach the browser.
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT
+* bcryptjs
+* REST APIs
 
-## Folder Structure
+### Tools
 
-```
+* Git & GitHub
+* MongoDB Atlas
+* Postman
+* VS Code
+
+## Project Structure
+
+```text
 task-management-mern/
+│
 ├── backend/
-│   ├── config/          db.js, cloudinary.js
-│   ├── controllers/     authController.js, taskController.js
-│   ├── middleware/      authMiddleware.js, uploadMiddleware.js, errorMiddleware.js
-│   ├── models/          User.js, Task.js
-│   ├── routes/          authRoutes.js, taskRoutes.js
-│   ├── services/        emailService.js, weatherService.js
-│   ├── validators/      authValidator.js, taskValidator.js
-│   ├── utils/           asyncHandler.js, apiResponse.js
-│   ├── tests/           auth.test.js, task.test.js
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── tests/
+│   ├── utils/
+│   ├── validators/
 │   ├── .env.example
+│   ├── package.json
 │   └── server.js
+│
 ├── frontend/
 │   ├── src/
-│   │   ├── components/  Navbar, Sidebar, TaskCard, TaskFormModal, TaskDetails,
-│   │   │                WeatherBadge, SearchBar, FilterPanel, Pagination,
-│   │   │                ConfirmDialog, LoadingState, EmptyState, ProtectedRoute
-│   │   ├── context/      AuthContext.jsx
-│   │   ├── hooks/        useAuth.js, useTasks.js
-│   │   ├── pages/        LoginPage, RegisterPage, DashboardPage, TasksPage,
-│   │   │                TaskDetailsPage, ProfilePage, NotFoundPage
-│   │   ├── services/     api.js, authService.js, taskService.js, weatherService.js
-│   │   └── utils/        formatDate.js, validation.js
-│   └── .env.example
+│   ├── .env.example
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+├── .gitignore
+├── package.json
 └── README.md
 ```
 
-## Prerequisites
+## Architecture
 
-- Node.js 18+
-- npm
-- A MongoDB instance (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
-- A [Cloudinary](https://cloudinary.com) account (free tier is enough) — for attachments
-- An [OpenWeatherMap](https://openweathermap.org/api) API key — for weather
-- An SMTP account (e.g. Gmail app password, Mailtrap, SendGrid, Resend SMTP) — for email
+```text
+React Frontend
+       │
+       │ HTTP Requests
+       ▼
+Express.js / Node.js API
+       │
+       │ Mongoose
+       ▼
+MongoDB Atlas
+```
 
-The app runs and the core task CRUD works even without Cloudinary/OpenWeatherMap/SMTP configured — those features degrade gracefully (see "Known Limitations").
+The React frontend communicates with the Express.js backend through REST APIs. The backend handles authentication, task operations, validation, error handling, and communication with MongoDB.
+
+## Features
+
+### User Authentication
+
+* User registration
+* User login
+* JWT-based authentication
+* Protected routes
+* Secure password hashing using bcrypt
+
+### Task Management
+
+* Create new tasks
+* View tasks
+* Update tasks
+* Delete tasks
+* Mark tasks as completed
+* Manage user-specific tasks
+
+### Security
+
+* Passwords are hashed before being stored
+* JWT authentication for protected APIs
+* CORS configuration
+* Helmet security middleware
+* Environment variables for sensitive information
+* Request validation
+* Centralized error handling
+
+## Authentication Flow
+
+```text
+User
+ │
+ ▼
+Register / Login
+ │
+ ▼
+Express API
+ │
+ ├── Validate User
+ │
+ ├── Hash Password
+ │
+ └── Generate JWT
+ │
+ ▼
+MongoDB
+ │
+ ▼
+Authenticated User
+ │
+ ▼
+Protected Task APIs
+```
+
+Passwords are never stored as plain text.
+
+Example user document:
+
+```json
+{
+  "name": "Sumanth",
+  "email": "user@example.com",
+  "password": "$2a$10$hashedPassword..."
+}
+```
+
+## API
+
+Backend:
+
+```text
+http://localhost:5000
+```
+
+### Health Check
+
+```http
+GET /api/health
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "status": "ok"
+}
+```
+
+### Authentication
+
+```http
+POST /api/auth/register
+POST /api/auth/login
+```
+
+### Tasks
+
+```http
+GET    /api/tasks
+POST   /api/tasks
+PUT    /api/tasks/:id
+DELETE /api/tasks/:id
+```
+
+Protected task routes require a valid JWT token.
+
+## Environment Variables
+
+Create a `.env` file inside the `backend` folder.
+
+```env
+MONGO_URI=your_mongodb_connection_string
+PORT=5000
+CLIENT_URL=http://localhost:5173
+JWT_SECRET=your_jwt_secret
+```
+
+Never commit your `.env` file or database credentials to GitHub.
 
 ## Installation
 
+Clone the repository:
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/Sumanth8913/task-management-mern.git
+```
+
+Navigate to the project:
+
+```bash
 cd task-management-mern
+```
+
+## Backend Setup
+
+Navigate to the backend:
+
+```bash
 cd backend
-npm install
-cd ../frontend
+```
+
+Install dependencies:
+
+```bash
 npm install
 ```
 
-## Environment Setup
+Start the backend:
 
-### Backend (`backend/.env`, copy from `backend/.env.example`)
-
-| Variable | Description |
-|---|---|
-| `NODE_ENV` | `development` or `production` |
-| `PORT` | Backend port, default `5000` |
-| `MONGO_URI` | MongoDB connection string |
-| `JWT_SECRET` | Long random string used to sign JWTs |
-| `JWT_EXPIRES_IN` | Token lifetime, e.g. `7d` |
-| `CLIENT_URL` | Frontend origin, for CORS, e.g. `http://localhost:5173` |
-| `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | From your Cloudinary dashboard |
-| `OPENWEATHER_API_KEY` | From your OpenWeatherMap account |
-| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASSWORD` | Your SMTP provider's credentials |
-| `EMAIL_FROM` | Sender display name/address for outgoing emails |
-
-### Frontend (`frontend/.env`, copy from `frontend/.env.example`)
-
-| Variable | Description |
-|---|---|
-| `VITE_API_BASE_URL` | Backend API base URL, e.g. `http://localhost:5000/api` |
-
-Never put backend secrets (JWT secret, Cloudinary/SMTP/weather keys) into a `VITE_*` variable — anything prefixed `VITE_` is bundled into the client-side JavaScript and is publicly visible.
-
-## MongoDB Setup
-
-**Local:** install MongoDB Community Edition, run `mongod`, and use `MONGO_URI=mongodb://localhost:27017/task_management`.
-
-**Atlas:** create a free cluster, add a database user, allow your IP (or `0.0.0.0/0` for development), and copy the provided connection string into `MONGO_URI`.
-
-## Cloudinary Setup
-
-Create a free account at cloudinary.com, then copy the **Cloud name**, **API Key**, and **API Secret** from your dashboard into the backend `.env`. Attachments are uploaded via a server-side stream — no signed upload widget or client-side key is required.
-
-## Weather Setup
-
-Sign up at openweathermap.org, generate an API key (new keys can take up to a couple of hours to activate), and set `OPENWEATHER_API_KEY`. Without this key, `GET /api/tasks/:id/weather` returns a `503` and the frontend shows "Weather unavailable" instead of fabricating data.
-
-## Email Setup
-
-Use any standard SMTP provider. For Gmail, generate an [app password](https://myaccount.google.com/apppasswords) and use `smtp.gmail.com`, port `587`. For testing, [Mailtrap](https://mailtrap.io) is a good sandbox that won't send real emails. Without SMTP configured, emails are skipped and logged server-side — task creation and completion still succeed.
-
-## Running Locally
-
-**Backend:**
 ```bash
-cd backend
+npm start
+```
+
+Backend will run at:
+
+```text
+http://localhost:5000
+```
+
+## Frontend Setup
+
+Open another terminal and navigate to the frontend:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
 
-**Frontend** (in a second terminal):
+Frontend will run at:
+
+```text
+http://localhost:5173
+```
+
+## Running the Application
+
+Start the backend:
+
+```bash
+cd backend
+npm start
+```
+
+Then start the frontend in another terminal:
+
 ```bash
 cd frontend
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`, backend at `http://localhost:5000`.
+Open the application in your browser:
 
-## API Documentation
-
-All responses share the shape `{ success, data }` on success or `{ success: false, message, details? }` on error. Task endpoints require `Authorization: Bearer <token>`.
-
-### Auth
-
-| Method | Endpoint | Auth | Body | Notes |
-|---|---|---|---|---|
-| POST | `/api/auth/register` | No | `{ name, email, password }` | Returns `{ user, token }`. Rate-limited. |
-| POST | `/api/auth/login` | No | `{ email, password }` | Returns `{ user, token }`. Rate-limited. |
-| GET | `/api/auth/me` | Yes | — | Returns the current user. |
-| POST | `/api/auth/logout` | Yes | — | Stateless; client discards the token. |
-
-### Tasks
-
-| Method | Endpoint | Auth | Notes |
-|---|---|---|---|
-| GET | `/api/tasks` | Yes | Query: `page, limit, search, status, priority, startDate, endDate, sort`. Returns `{ tasks }` + `meta: { total, page, limit, totalPages, hasNextPage, hasPreviousPage }`. |
-| POST | `/api/tasks` | Yes | Multipart form: `title, description, status, priority, dueDate, location, attachment`. |
-| GET | `/api/tasks/:id` | Yes | 404 if the task doesn't belong to the caller. |
-| PATCH | `/api/tasks/:id` | Yes | Partial update, multipart. Sets `completedAt` only on the transition into `DONE`. |
-| DELETE | `/api/tasks/:id` | Yes | Also deletes any Cloudinary attachments. |
-| GET | `/api/tasks/:id/weather` | Yes | 400 if the task has no location; 503 if weather isn't configured. |
-
-Possible errors: `400` validation, `401` missing/invalid/expired token, `404` not found or not owned by caller, `409` duplicate email on register, `429` too many auth attempts, `500` unexpected server error.
-
-## Testing
-
-```bash
-cd backend
-npm test
+```text
+http://localhost:5173
 ```
 
-Tests use `mongodb-memory-server` to spin up an ephemeral MongoDB instance — no external database is touched. They cover registration, duplicate-email rejection, login, protected-route access, task CRUD, the `completedAt` transition logic, ownership isolation between two different users, filtering, pagination (including page-size capping), and rejection of invalid JWTs.
+## Database
 
-> Note: `mongodb-memory-server` downloads a MongoDB binary on first run. If your environment blocks that download, point `MONGO_URI` at a real local/Atlas instance and adapt the test setup, or run the tests in an environment with unrestricted network access.
+The application uses MongoDB Atlas for data storage.
 
-## Deployment
+Mongoose is used in the backend to connect the Node.js application with MongoDB.
 
-**Database:** MongoDB Atlas — create a cluster, get the connection string.
+The database stores application data such as:
 
-**Backend:** Render, Railway, or Fly.io. Set the environment variables listed above, set the start command to `npm start` (or `node server.js`), and set `CLIENT_URL` to your deployed frontend's origin so CORS allows it.
+* Users
+* Tasks
 
-**Frontend:** Vercel or Netlify. Set `VITE_API_BASE_URL` to your deployed backend's `/api` URL as a build-time environment variable, build command `npm run build`, output directory `dist`.
+User passwords are stored securely in hashed form using bcrypt.
 
-**CORS:** the backend only allows requests from `CLIENT_URL`; update it whenever you change the frontend's deployed domain.
+## Error Handling
 
-No `localhost` URLs are hardcoded — both origins are environment-driven.
+The backend includes centralized error handling for:
 
-## Security Notes
+* Invalid requests
+* Authentication errors
+* Unauthorized access
+* Missing routes
+* Database errors
+* Validation errors
 
-- Passwords hashed with bcrypt (10 salt rounds) before storage; never returned in API responses
-- JWTs signed with `JWT_SECRET`, verified on every protected request; the secret never reaches the frontend
-- Every task query/update/delete is scoped by `{ _id: taskId, user: req.user._id }` — ownership is enforced at the database query level, not just checked in application code after the fact
-- Uploaded files are validated by MIME type and capped at 10MB
-- `helmet` sets standard security headers; CORS is restricted to `CLIENT_URL`
-- Auth endpoints are rate-limited (20 requests / 15 minutes per IP) to slow down credential stuffing
+Example health response:
 
-This is a reasonable baseline for a small-to-medium application, not a claim of "100% secure" — a production deployment handling sensitive data should add things like refresh-token rotation, audit logging, and a WAF.
+```json
+{
+  "success": true,
+  "status": "ok"
+}
+```
 
-## Known Limitations
+## Screenshots
 
-- No password-reset / "forgot password" flow
-- No email verification on signup
-- JWTs are not revocable before expiry (no server-side blocklist) — logout is client-side only
-- Dashboard stats are computed client-side from a capped recent-tasks fetch (50 tasks) rather than a dedicated aggregation endpoint, so extremely large task lists won't be perfectly represented in the "total" counts shown on the dashboard vs. the full `/api/tasks` count
-- Weather is looked up by free-text city name (no geocoding/disambiguation for ambiguous city names)
-- No real-time updates (e.g. WebSockets) between multiple open tabs/devices for the same user
+
+Recommended screenshots:
+
+* Login page
+* Registration page
+* Dashboard
+* Task creation
+* Task list
+* Completed tasks
 
 ## Future Improvements
 
-- Task reminders (email/push before a due date)
-- Recurring tasks
-- Calendar view / calendar app integration
-- Team workspaces with shared tasks and role-based access
-- In-app notifications, not just email
-- Refresh tokens with rotation and server-side revocation
+* 📅 Task due dates
+* 🔔 Task reminders
+* 🔎 Task search and filtering
+* 🏷️ Task categories and priorities
+* 📊 Task statistics
+* 🌙 Dark mode
+* 👥 Team task management
+* 🐳 Docker support
+* ☁️ Cloud deployment
+* 📱 Improved mobile experience
+
+## Author
+
+**Sumanth Reddy**
+
+B.Tech – Computer Science & Engineering
+
+
+This project is created for learning and development purposes.
