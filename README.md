@@ -348,19 +348,7 @@ Recommended screenshots:
 * Task creation
 * Task list
 * Completed tasks
-
-## Future Improvements
-
-* 📅 Task due dates
-* 🔔 Task reminders
-* 🔎 Task search and filtering
-* 🏷️ Task categories and priorities
-* 📊 Task statistics
-* 🌙 Dark mode
-* 👥 Team task management
-* 🐳 Docker support
-* ☁️ Cloud deployment
-* 📱 Improved mobile experience
+  
 
 ## Author
 
